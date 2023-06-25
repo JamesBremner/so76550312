@@ -1,9 +1,11 @@
 #include "definitions.h"
 #include "profiles.h"
-#define MONITOR
+#include "cRunWatch.h"
 
 std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles, Companies &companies)
 {
+    raven::set::cRunWatch aWatcher("create_edges_and_nodes_from_profiles");
+
     using namespace std::literals;
 
     Nodes nodes;
@@ -27,41 +29,32 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
     float t_company_size, t_median_tenure, t_headcount_growth, t_duration, t_salary;
     s t_name, t_position_title, t_location, t_institution_name, t_industry;
 
-#ifdef MONITOR
-    auto before_map_createion = std::chrono::high_resolution_clock::now();
-#endif
-
     for (Company &company : companies)
     {
-
+        raven::set::cRunWatch aWatcher("populate company map");
         company_data scd;
-        scd.tenure   = company.median_tenure;
-        scd.growth   = company.headcount_growth;
-        scd.size     = company.company_size;
+        scd.tenure = company.median_tenure;
+        scd.growth = company.headcount_growth;
+        scd.size = company.company_size;
         scd.industry = company.industry;
 
         company_map[company.name] = scd;
-
     }
-
-#ifdef MONITOR
-    auto after_map_creation = std::chrono::high_resolution_clock::now();
-
-    auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(after_map_creation - before_map_createion).count();
-
-    std::cout << "after_map_creation (msecs) " << temp << std::endl;
-#endif
 
     for (Profile &profile : profiles)
     {
+        raven::set::cRunWatch aWatcher("loop over profiles");
         Nodes nodes_temp;
-        nodes_temp.reserve(profile.experiences.size());
+        {
+            raven::set::cRunWatch aWatcher("reserve");
+            nodes_temp.reserve(profile.experiences.size());
+        }
         current_duration = 0.0;
         use_profile = false;
 
         for (Experience &experience : profile.experiences)
         {
-
+            raven::set::cRunWatch aWatcher("loop over experiences");
             stv location = stv(experience.location);
 
             if (location.compare(""sv) != 0)
@@ -105,38 +98,43 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
             }
         }
 
-        for (Node &node : nodes_temp)
         {
-            if (node.location.compare(""sv) != 0)
+            raven::set::cRunWatch aWatcher("rest of profile loop");
+            for (Node &node : nodes_temp)
             {
-                use_profile = true;
-                break;
+                if (node.location.compare(""sv) != 0)
+                {
+                    use_profile = true;
+                    break;
+                }
             }
-        }
 
-        if (!use_profile)
-            continue;
+            if (!use_profile)
+                continue;
 
-        current_duration = 0.0;
+            current_duration = 0.0;
 
-        for (Nodes::reverse_iterator rit = nodes_temp.rbegin(); rit != nodes_temp.rend(); ++rit)
-        {
-            rit->current_experience_duration = current_duration;
-            current_duration += rit->duration;
-        }
-
-        if (nodes_temp.size() > 1)
-        {
-            for (int i = 0; i < nodes_temp.size() - 1; i++)
+            for (Nodes::reverse_iterator rit = nodes_temp.rbegin(); rit != nodes_temp.rend(); ++rit)
             {
-                // Edge edge = Edge(&nodes_temp[i+1],&nodes_temp[i]);
-                edges.emplace_back(std::move(nodes_temp[i + 1]), std::move(nodes_temp[i]));
+                rit->current_experience_duration = current_duration;
+                current_duration += rit->duration;
             }
-        }
 
-        for (auto &node : nodes_temp)
-        {
-            nodes.push_back(std::move(node));
+            if (nodes_temp.size() > 1)
+            {
+                raven::set::cRunWatch aWatcher("populate edges");
+                for (int i = 0; i < nodes_temp.size() - 1; i++)
+                {
+                    // Edge edge = Edge(&nodes_temp[i+1],&nodes_temp[i]);
+                    edges.emplace_back(std::move(nodes_temp[i + 1]), std::move(nodes_temp[i]));
+                }
+            }
+
+            for (auto &node : nodes_temp)
+            {
+                raven::set::cRunWatch aWatcher("populate nodes");
+                nodes.push_back(std::move(node));
+            }
         }
     }
 

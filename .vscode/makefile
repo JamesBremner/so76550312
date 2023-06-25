@@ -1,10 +1,8 @@
 #source file search paths
-VPATH = ./src 
+VPATH = ./src ../raven-set
 
 	# compiler include search paths
-INCS = -I./include \
-	-I../windex/include \
-	-I../raven-set \
+INCS = -I../raven-set \
 	-I../../code_ext/boost/boost1_78 
 
 LIBS = \
@@ -27,6 +25,7 @@ CCflags = -std=c++17 $(OPT) -D_mingw_
 OBJ_starter = \
 	$(ODIR)/main.o \
 	$(ODIR)/profiles.o \
+	$(ODIR)/cRunWatch.o
 
 ### COMPILE
 
