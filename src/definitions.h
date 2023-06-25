@@ -218,10 +218,7 @@ struct Edge
         
         bool operator==(const Edge& other) const
             {
-                if (this->source == other.source && this->target == other.target)
-                    return true;
-                else
-                    return false;
+                return (source == other.source && target == other.target);
             }
         
         friend std::ostream& operator<<(std::ostream& os, const Edge& edge)
