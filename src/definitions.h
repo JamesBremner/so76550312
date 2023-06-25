@@ -104,6 +104,7 @@ typedef std::vector<Profile> Profiles;
 
 struct Node
     {
+        int index;
         s name;
         s position_title;
         s institution_name;
@@ -181,8 +182,8 @@ typedef std::vector<Node> Nodes;
 
 struct Edge
     {
-        Node source;
-        Node target;
+        int source;
+        int target;
         s linkedin_url;
         float duration;
         int company_size;
@@ -190,23 +191,23 @@ struct Edge
         float salary;
         float headcount_growth;
 
-        Edge(Node t_source, Node t_target)
+        Edge(const Node& t_source, const Node& t_target)
             {
                 
-                this->source = t_source;
-                this->target = t_target;
-                this->linkedin_url = this->target.linkedin_url;
-                this->duration = this->target.duration;
-                this->company_size = this->target.company_size;
-                this->median_tenure = this->target.median_tenure;
-                this->salary = this->target.salary;
-                this->headcount_growth = this->target.headcount_growth;
+                this->source = t_source.index;
+                this->target = t_target.index;
+                this->linkedin_url = t_target.linkedin_url;
+                this->duration = t_target.duration;
+                this->company_size = t_target.company_size;
+                this->median_tenure = t_target.median_tenure;
+                this->salary = t_target.salary;
+                this->headcount_growth = t_target.headcount_growth;
             }
         
         Edge()
             {
-                this->source = Node();
-                this->target = Node();
+                this->source = -1;
+                this->target = -1;
                 this->linkedin_url = "";
                 this->duration = 0;
                 this->company_size = 0;

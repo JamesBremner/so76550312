@@ -118,7 +118,19 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
                 current_duration += rit->duration;
             }
 
-            if (nodes_temp.size() > 1)
+            {
+                raven::set::cRunWatch aWatcher("populate nodes");
+
+                // loop over nodes constructed by this profile
+                for (auto &node : nodes_temp)
+                {
+                    // add to the nodes vector
+                    nodes.push_back(std::move(node));
+
+                    // assign index into node vector
+                    nodes.back().index = nodes.size() - 1;
+                }
+            }
             {
                 raven::set::cRunWatch aWatcher("populate edges");
                 for (int i = 0; i < nodes_temp.size() - 1; i++)
@@ -126,12 +138,6 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
                     // Edge edge = Edge(&nodes_temp[i+1],&nodes_temp[i]);
                     edges.emplace_back(std::move(nodes_temp[i + 1]), std::move(nodes_temp[i]));
                 }
-            }
-
-            for (auto &node : nodes_temp)
-            {
-                raven::set::cRunWatch aWatcher("populate nodes");
-                nodes.push_back(std::move(node));
             }
         }
     }
