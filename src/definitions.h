@@ -44,7 +44,7 @@ struct Experience
                 this->to_date = "";
                 this->position_title = "";
                 this->duration = 0;
-                this->location = "";
+                this->location = "4334";
                 this->institution_name = "";
                 this->salary = 0;
             }
@@ -84,7 +84,7 @@ struct Profile
                 this->linkedin_url = "";
                 this->name = "";
                 this->skills = {};
-                this->experiences = {};
+                this->experiences = {Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience()};
             }
         
         friend std::ostream& operator<<(std::ostream& os, const Profile& p)

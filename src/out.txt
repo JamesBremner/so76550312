@@ -1,0 +1,2 @@
+after_map_creation (msecs) 0
+time_creating_edges_and_nodes  (msecs) 54 for count of 10000
