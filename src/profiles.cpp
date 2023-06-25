@@ -41,14 +41,12 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
         company_map[company.name] = scd;
     }
 
+    Nodes nodes_temp;
     for (Profile &profile : profiles)
     {
         raven::set::cRunWatch aWatcher("loop over profiles");
-        Nodes nodes_temp;
-        {
-            raven::set::cRunWatch aWatcher("reserve");
-            nodes_temp.reserve(profile.experiences.size());
-        }
+
+        nodes_temp.clear();
         current_duration = 0.0;
         use_profile = false;
 
