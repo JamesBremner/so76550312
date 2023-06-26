@@ -110,15 +110,7 @@ std::pair<Nodes, Edges> create_edges_and_nodes_from_profiles(Profiles &profiles,
             if (!use_profile)
                 continue;
 
-            current_duration = 0.0;
-
-            for (Nodes::reverse_iterator rit = nodes_temp.rbegin(); rit != nodes_temp.rend(); ++rit)
-            {
-                rit->current_experience_duration = current_duration;
-                current_duration += rit->duration;
-            }
-
-            {
+           {
                 raven::set::cRunWatch aWatcher("populate nodes");
 
                 // loop over nodes constructed by this profile
