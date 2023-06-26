@@ -79,12 +79,13 @@ struct Profile
                 this->experiences = experiences;
             }
         
+        /** @brief Default Ctor.
+         * 
+         * Creates 10 default experiences
+         */
         Profile()
+        : experiences(10)
             {
-                this->linkedin_url = "";
-                this->name = "";
-                this->skills = {};
-                this->experiences = {Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience(),Experience()};
             }
         
         friend std::ostream& operator<<(std::ostream& os, const Profile& p)
