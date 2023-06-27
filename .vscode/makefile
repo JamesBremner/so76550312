@@ -26,7 +26,6 @@ OBJ_starter = \
 	$(ODIR)/main.o \
 	$(ODIR)/cProjectGraph.o \
 	$(ODIR)/cProfile.o \
-	$(ODIR)/profiles.o \
 	$(ODIR)/cRunWatch.o
 
 ### COMPILE
