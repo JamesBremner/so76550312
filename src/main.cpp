@@ -1,44 +1,58 @@
-#include "definitions.h"
-#include "profiles.h"
+#include "declarations.h"
 #include "cRunWatch.h"
 #define MONITOR
 
 
 
-Profiles get_profiles(int count)
+vProfile_t get_profiles(int count)
 {
-    Profiles ret(count);
+    vProfile_t ret(count);
 
     return ret;
 }
 
-Companies get_companies(int count)
+vCompany_t get_companies(int count)
 {
-    Companies ret(count);
+    vCompany_t ret(count);
 
     return ret;
+}
+
+void testSanity()
+{
+    vExperiences_t vexp {
+        cExperience("","","",1,"London","",1),
+        cExperience("","","",1,"HongKong","",1),
+    };
+    vProfile_t vProfile;
+    vProfile.push_back( cProfile("","",{""},vexp));
+
+    vCompany_t vCompany;
+    vCompany.push_back( cCompany("testCompany") );
+
+    cProjectGraph g( vProfile, vCompany );
+
+    std::cout << g.text();
 }
 
 int main()
 {
+    testSanity();
+
     #ifdef MONITOR
     raven::set::cRunWatch::Start();
     #endif
 
     int testCount = 10000;
-    Profiles profiles = get_profiles(testCount);
-    Companies companies = get_companies(testCount);
+    auto vProfile  = get_profiles(testCount);
+    auto vCompany  = get_companies(testCount);
 
 
     // Create nodes and edges from profiles and companies
-    auto [nodes, edges] = create_edges_and_nodes_from_profiles(profiles, companies);
+    cProjectGraph g2( vProfile, vCompany );
 
     raven::set::cRunWatch::Report();
 
-
-    // lots of functions using Nodes and Edges
-    //...
-    //...
     
     return 0;
 }

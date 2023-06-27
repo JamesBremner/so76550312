@@ -88,7 +88,7 @@ struct Profile
 
     /** @brief Check if the profile is to be used
      *
-     * Profile is used if 1 or emre exoperiences have a defined location
+     * Profile is used if 1 or more experiences have a defined location
      */
     bool isUsed() const
     {

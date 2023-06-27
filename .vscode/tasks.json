@@ -9,11 +9,23 @@
                 "cwd": "${workspaceFolder}"
                },
             "command": "mingw32-make.exe",
-            "args": [
-                "-f",
-                ".vscode/makefile",
-                "starter"
+            "args": ["-f",".vscode/makefile", "starter"],
+
+            "problemMatcher": [
+                "$gcc"
             ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "rebuild",
+            "options": {
+                "cwd": "${workspaceFolder}"
+               },
+            "command": "mingw32-make.exe",
+            "args": ["-f",".vscode/makefile", "rebuild"],
 
             "problemMatcher": [
                 "$gcc"
