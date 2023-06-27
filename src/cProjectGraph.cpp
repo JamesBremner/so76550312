@@ -6,6 +6,8 @@ cProjectGraph::cProjectGraph(
     : myCompany(std::move(companies)),
       myProfile(std::move(profiles))
 {
+    raven::set::cRunWatch aWatcher("cProjectGraph constructor");
+
     // loop over profiles
     int profileIndex = -1;
     for (const cProfile &profile : profiles)

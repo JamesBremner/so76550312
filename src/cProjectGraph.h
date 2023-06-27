@@ -19,7 +19,16 @@ public:
     /// @return const reference to experience
     const cExperience& experience( 
         const cNode& n ) const;
-        
+
+    int nodeCount() const
+    {
+        return myNode.size();
+    }
+    int edgeCount() const
+    {
+        return myEdge.size();
+    }
+
 private:
     vCompany_t myCompany;
     const vProfile_t myProfile;

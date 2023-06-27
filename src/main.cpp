@@ -1,6 +1,5 @@
 #include "declarations.h"
-#include "cRunWatch.h"
-#define MONITOR
+
 
 
 
@@ -35,13 +34,9 @@ void testSanity()
     std::cout << g.text();
 }
 
-int main()
+void testTiming()
 {
-    testSanity();
-
-    #ifdef MONITOR
     raven::set::cRunWatch::Start();
-    #endif
 
     int testCount = 10000;
     auto vProfile  = get_profiles(testCount);
@@ -51,8 +46,18 @@ int main()
     // Create nodes and edges from profiles and companies
     cProjectGraph g2( vProfile, vCompany );
 
-    raven::set::cRunWatch::Report();
+    std::cout <<"\n" << g2.nodeCount() 
+        << " nodes and " << g2.edgeCount() 
+        << " edges constructed\n";
 
-    
+    raven::set::cRunWatch::Report();    
+}
+
+int main()
+{
+    testSanity();
+
+    testTiming();
+ 
     return 0;
 }
