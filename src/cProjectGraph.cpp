@@ -31,7 +31,7 @@ cProjectGraph::cProjectGraph(
                 experienceIndex);
 
             // check for previous node
-            if (myNode.size() == 1)
+            if (experienceIndex == 0)
                 continue;
 
             // construct edge from previous node
