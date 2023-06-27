@@ -20,8 +20,8 @@ vCompany_t get_companies(int count)
 void testSanity()
 {
     vExperiences_t vexp {
-        cExperience("","","",1,"London","",1),
-        cExperience("","","",1,"HongKong","",1),
+        cExperience("2001","2005","",1,"London","",1),
+        cExperience("2005","2010","",1,"HongKong","",1),
     };
     vProfile_t vProfile;
     vProfile.push_back( cProfile("","",{""},vexp));

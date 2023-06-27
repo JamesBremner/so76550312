@@ -1,11 +1,11 @@
 class cExperience
 {
     std::string myfrom_date;
-    std::string to_date;
+    std::string myto_date;
     std::string position_title;
     float myDuration;
     std::string myLocation;
-    std::string institution_name;
+    std::string myInstitution;
     float mySalary;
 
 public:
@@ -17,9 +17,11 @@ public:
         const std::string &location,
         const std::string &institution_name,
         float salary)
-        : myfrom_date( from_date ),
-        myLocation( location ),
+        : myfrom_date( std::move(from_date) ),
+        myto_date( std::move(to_date) ),
+        myLocation( std::move(location) ),
         myDuration( duration ),
+        myInstitution( std::move( institution_name)),
         mySalary( salary )
     {
     }
@@ -36,11 +38,11 @@ public:
     {
         std::stringstream os;
         os << "from_date: " << myfrom_date << ", ";
-        os << "to_date: " << to_date << ", ";
+        os << "to_date: " << myto_date << ", ";
         os << "position_title: " << position_title << ", ";
         os << "duration: " << myDuration << ", ";
         os << "location: " << myLocation << ", ";
-        os << "institution_name: " << institution_name << ", ";
+        os << "institution_name: " << myInstitution << ", ";
         os << "salary: " << mySalary << std::endl;
         return os.str();
     }

@@ -1,18 +1,16 @@
 class cProfile
 {
-    std::string linkedin_url;
-    std::string name;
+    std::string mylinkedin_url;
+    std::string myName;
     const vExperiences_t myExperiences;
-    std::vector<std::string> skills;
+    std::vector<std::string> mySkills;
 
 public:
     cProfile(
         const std::string &linkedin_url,
         const std::string &name,
         const std::vector<std::string> &skills,
-        const vExperiences_t &experiences)
-        : myExperiences(std::move(experiences))
-        {}
+        const vExperiences_t &experiences);
 
     cProfile( bool ftest = false )
     : myExperiences(10 )

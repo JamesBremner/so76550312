@@ -1,9 +1,17 @@
 #include "declarations.h"
 
-/** @brief Check if the profile is to be used
- *
- * Profile is used if 1 or more experiences have a defined location
- */
+
+    cProfile::cProfile(
+        const std::string &linkedin_url,
+        const std::string &name,
+        const std::vector<std::string> &skills,
+        const vExperiences_t &experiences)
+        : mylinkedin_url( std::move( linkedin_url)),
+        myName( std::move(name )),
+        mySkills( std::move( skills )),
+        myExperiences(std::move(experiences))
+        {}
+
 bool cProfile::isUsed() const
 {
     for (const auto &exp : myExperiences)
@@ -15,8 +23,8 @@ bool cProfile::isUsed() const
 std::string cProfile::text() const
 {
     std::stringstream os;
-    os << "linkedin_url: " << linkedin_url << std::endl;
-    os << "name: " << name << std::endl;
+    os << "linkedin_url: " << mylinkedin_url << std::endl;
+    os << "name: " << myName << std::endl;
     os << "experiences: " << std::endl;
     for (auto &e : myExperiences)
     {
